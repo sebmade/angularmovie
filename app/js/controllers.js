@@ -13,10 +13,10 @@ angularMovieApp.controller("moviesController" ,function moviesController($scope,
         vm.movies = resp;
     });
 
-    $scope.deleteMovie = function(index){
-        $http.delete('/server/api/movies/' + $scope.movies[index].id)
+    vm.deleteMovie = function(index){
+        $http.delete('/server/api/movies/' + vm.movies[index].id)
             .success(function(resp){
-                $scope.movies.splice(index, 1);
+                vm.movies.splice(index, 1);
             });
     };
 });
