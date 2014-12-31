@@ -5,6 +5,12 @@ var _ = require('lodash'),
 	MOVIES = require('./data/movies').movies;
 
 /**
+ * variable to act as a generated id
+ * @type {number}
+ */
+var ID = 9;
+
+/**
  * Fetch all movies
  * If category query is provided, fetch movies filtered by category
  */
@@ -12,7 +18,7 @@ exports.fetchMovies = function (req, res) {
     var movies = [];
     if(req.query.category){
         movies = MOVIES.filter(function(movie){
-           return movie.category === req.query.category;
+            return movie.category === req.query.category;
         });
     } else {
         movies = MOVIES;
