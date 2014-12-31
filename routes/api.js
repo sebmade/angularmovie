@@ -66,20 +66,21 @@ exports.fetchActorsOfMovie = function(req, res){
  * Create a movie
  */
 exports.addMovie = function (req, res) {
-    var movieToAdd = req.body;
+	var movie = req.body;
 
-	var existingMovie = _.find(MOVIES, function (movie) {
-		return movieToAdd.title == movie.title;
-	});
 
-	if (existingMovie) {
-		return res.status(500).json({ error: 'Le film ' + existingMovie.title + ' a déjà été ajouté.' });
-	} else {
-		ID ++;
-		movieToAdd.id = ID;
-		MOVIES.push(movieToAdd);
-		return res.status(201).json(movieToAdd);
+	for(var idx in MOVIES){
+		if(MOVIES[idx].title === movie.title){
+			return res.json(500, { error: 'Le film ' + movie.title + ' a déjà été ajouté.' });
+		}
 	}
+
+	// increment the id to generate a unique one
+	ID ++;
+	movie.id = ID;
+
+	MOVIES.push(movie);
+	return res.json(201, movie);
 };
 
 
