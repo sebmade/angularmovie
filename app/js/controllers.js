@@ -1,48 +1,49 @@
 "use strict";
 
-angularMovieApp.controller("homeController" ,function ($scope) {
+angularMovieApp.controller("homeController" ,function homeController($scope) {
 
-    $scope.user = 'Thierry LAU';
+    this.user = 'Sébastien Letélié';
 
 });
 
-angularMovieApp.controller("moviesController" ,function ($scope, Movie) {
+angularMovieApp.controller("moviesController" ,function moviesController($scope, $http, movies) {
+    var vm = this;
+    vm.movies = movies;
 
-    $scope.movies = Movie.query();
-
-    $scope.deleteMovie = function(index){
-
-        $scope.movies[index].remove(function (){
-            $scope.movies.splice(index, 1);
-        });
-
+    vm.deleteMovie = function(index){
+      vm.movies[index].$remove(function(resp){
+                vm.movies.splice(index, 1);
+            }
+        );
     };
 
 });
 
-angularMovieApp.controller('editMovieController', function($scope, Movie, $routeParams, $location){
+angularMovieApp.controller('editMovieController', function editMovieController($scope, Movie, $location, movie){
+    var vm = this;
 
-    var movieId = $routeParams.id;
+    $scope.movie = movie;
 
-	$scope.movie = Movie.get({id : movieId}, function (data) {
-		 $scope.movie = data;
-	});
-
-    $scope.updateMovie = function(data){
-
-		$scope.movie.$update(function(){
-            $location.path('/movies');
-        })
+    vm.updateMovie = function(movie){
+       $scope.movie.$update(function(){
+               $location.path('/movies');
+           }, function(resp){
+               console.log(resp);
+           });
     };
 });
 
-angularMovieApp.controller("movieFormController" ,function ($scope, Movie) {
-    $scope.addMovie = function(data){
+angularMovieApp.controller("movieFormController" ,function movieFormController($scope, Movie) {
+    var vm = this;
+    vm.addMovie = function(movie){
 
-		Movie.save(data, function(u, putResponseHeaders){
-            $scope.movies.push(data);
-            $scope.movie = {};
-        });
-
+        Movie.save(movie, function(){
+                var newMovie = {};
+                angular.copy(movie, newMovie);
+                $scope.mo.movies.push(newMovie);
+                $scope.movie = {};
+            }, function(resp){
+                console.log(resp);
+            });
     };
 });
