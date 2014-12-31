@@ -1,34 +1,33 @@
 "use strict";
 
-angularMovieApp.controller("homeController" ,function ($scope) {
+angularMovieApp.controller("homeController" ,function homeController($scope) {
 
-    $scope.user = 'Thierry LAU';
+    this.user = 'Sébastien Letélié';
 
 });
 
-angularMovieApp.controller("moviesController" ,function ($scope, $http) {
+angularMovieApp.controller("moviesController" ,function moviesController($scope, $http) {
+  var vm = this;
 
     $http.get('/server/api/movies').success(function(resp){
-        $scope.movies = resp;
+        vm.movies = resp;
     });
 
-    $scope.deleteMovie = function(index){
-        $http.delete('/server/api/movies/' + $scope.movies[index].id)
+    vm.deleteMovie = function(index){
+        $http.delete('/server/api/movies/' + vm.movies[index].id)
             .success(function(resp){
-                $scope.movies.splice(index, 1);
-            }
-        );
+                vm.movies.splice(index, 1);
+            });
     };
-
 });
 
-angularMovieApp.controller("movieFormController" ,function ($scope, $http) {
-
-    $scope.addMovie = function(movie){
+angularMovieApp.controller("movieFormController" ,function movieFormController($scope, $http) {
+  var vm = this;
+    vm.addMovie = function(movie){
 
         $http.post('/server/api/movies', movie)
             .success(function(){
-                $scope.movies.push(movie);
+                $scope.mo.movies.push(movie);
                 $scope.movie = {};
             })
             .error(function(resp){
@@ -38,4 +37,3 @@ angularMovieApp.controller("movieFormController" ,function ($scope, $http) {
     };
 
 });
-
