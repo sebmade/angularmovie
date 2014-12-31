@@ -1,30 +1,32 @@
 "use strict";
 
-angularMovieApp.controller("homeController" ,function ($scope) {
+angularMovieApp.controller("homeController" ,function homeController($scope) {
 
-    $scope.user = 'Thierry LAU';
+    this.user = 'Sébastien Letélié';
 
 });
 
-angularMovieApp.controller("moviesController" ,function ($scope, $http) {
+angularMovieApp.controller("moviesController" ,function moviesController($scope, $http) {
+  var vm = this;
 
     $http.get('/server/api/movies').success(function(resp){
-        $scope.movies = resp;
+        vm.movies = resp;
     });
 
-    $scope.deleteMovie = function(movie){
-		var index = $scope.movies.indexOf(movie);
+    vm.deleteMovie = function(movie){
+		var index = vm.movies.indexOf(movie);
 
         $http.delete('/server/api/movies/' + movie.id)
             .success(function(){
-                $scope.movies.splice(index, 1);
+                vm.movies.splice(index, 1);
             }
         );
     };
 
 });
 
-angularMovieApp.controller('editMovieController', function($scope, $http, $routeParams, $location){
+angularMovieApp.controller('editMovieController', function editMovieController($scope, $http, $routeParams, $location){
+  var vm = this;
 
     var movieId = $routeParams.id;
 
@@ -32,7 +34,7 @@ angularMovieApp.controller('editMovieController', function($scope, $http, $route
        $scope.movie = movie;
     });
 
-    $scope.updateMovie = function(movie){
+    vm.updateMovie = function(movie){
        $http.put('/server/api/movies', movie)
            .success(function(){
                $location.path('/movies');
@@ -49,7 +51,7 @@ angularMovieApp.controller("movieFormController" ,function ($scope, $http) {
 
         $http.post('/server/api/movies', movie)
             .success(function(){
-                $scope.movies.push(movie);
+                $scope.mo.movies.push(movie);
                 $scope.movie = {};
             })
             .error(function(resp){
@@ -59,4 +61,3 @@ angularMovieApp.controller("movieFormController" ,function ($scope, $http) {
     };
 
 });
-
