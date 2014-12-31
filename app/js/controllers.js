@@ -1,14 +1,14 @@
 "use strict";
 
-angularMovieApp.controller("homeController" ,function ($scope) {
+angularMovieApp.controller("homeController" ,function homeController($scope) {
 
-    $scope.user = 'Thierry LAU';
+    this.user = 'Sébastien Letélié';
 
 });
 
-angularMovieApp.controller("moviesController" ,function ($scope) {
+angularMovieApp.controller("moviesController" ,function moviesController($scope) {
 
-    $scope.movies = [
+    this.movies = [
         {
             id: 1,
             title : "Avatar",
@@ -47,7 +47,7 @@ angularMovieApp.controller("moviesController" ,function ($scope) {
         },
         {
             id: 4,
-            title : "Yip Man 2",
+            title : "Ip Man 2",
             releaseYear : "2010",
             poster : "img/yipman.jpg",
             directors : "Wilson Yip",
@@ -59,12 +59,13 @@ angularMovieApp.controller("moviesController" ,function ($scope) {
 
 });
 
-angularMovieApp.controller("movieFormController" ,function ($scope) {
+angularMovieApp.controller("movieFormController" ,function movieFormController($scope) {
+    var vm = this;
+    vm.movie = {};
 
-    $scope.addMovie = function(movie){
-        $scope.movies.push(movie);
-        $scope.movie = {};
+    vm.addMovie = function(){
+        $scope.mo.movies.push(vm.movie);
+        vm.movie = {};
     };
 
 });
-
