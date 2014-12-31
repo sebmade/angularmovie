@@ -30,5 +30,5 @@ input::-webkit-inner-spin-button {
 }
 
 .caption > div > label {
-    display: inline-block;
+    display : inline-block;
 }

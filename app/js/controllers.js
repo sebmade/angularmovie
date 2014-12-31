@@ -1,80 +1,66 @@
 "use strict";
 
-angularMovieApp.controller("homeController" ,function ($scope) {
+angularMovieApp.controller("homeController" ,function homeController($scope) {
 
-    $scope.user = 'Thierry LAU';
+    this.user = 'Sébastien Letélié';
 
 });
 
-angularMovieApp.controller("moviesController" ,function ($scope, Movie) {
+angularMovieApp.controller("moviesController" ,function moviesController($scope, $http, movies) {
+    var vm = this;
+    vm.movies = movies;
 
     // display mode by default
-    $scope.tableView = false;
+    vm.tableView = false;
     // icon by mode by default
-    $scope.tableViewIcon = 'icon-th icon-white';
+    vm.tableViewIcon = 'icon-th-list icon-white';
 
     // function called when changing view mode
-    $scope.toogleView = function() {
-        $scope.tableView = !$scope.tableView;
+    vm.toogleView = function() {
+      vm.tableView = !vm.tableView;
 
-        if($scope.tableView === false){
-            $scope.tableViewIcon = 'icon-th-list icon-white';
-        } else {
-            $scope.tableViewIcon = 'icon-th icon-white';
-        }
+      if(vm.tableView === false){
+        vm.tableViewIcon = 'icon-th-list icon-white';
+      } else {
+        vm.tableViewIcon = 'icon-th icon-white';
+      }
     };
 
-    Movie.fetch().success(function(resp){
-        $scope.movies = resp;
-    });
-
-    $scope.deleteMovie = function(movie){
-		var index = $scope.movies.indexOf(movie);
-
-        Movie.remove(movie.id)
-            .success(function(){
-                $scope.movies.splice(index, 1);
+    vm.deleteMovie = function(movie) {
+      movie.$remove(function(resp){
+                vm.movies.splice(vm.movies.indexOf(movie), 1);
             }
         );
     };
 
 });
 
-angularMovieApp.controller('editMovieController', function($scope, Movie, $routeParams, $location){
+angularMovieApp.controller('editMovieController', function editMovieController($scope, Movie, $routeParams, $location, movie){
+    var vm = this;
 
-     var movieId = $routeParams.id;
+    $scope.movie = movie;
 
-    Movie.fetchOne(movieId).success(function(movie){
-       $scope.movie = movie;
-    });
-
-    $scope.updateMovie = function(movie){
-       Movie.update(movie)
-           .success(function(){
+    vm.updateMovie = function(movie){
+       movie.$update(movie, function(){
                $location.path('/movies');
-           })
-           .error(function(resp){
+           }, function(resp){
                console.log(resp);
            });
     };
 });
 
-angularMovieApp.controller("movieFormController" ,function ($scope, Movie) {
+angularMovieApp.controller("movieFormController" ,function movieFormController($scope, Movie) {
+    var vm = this;
+    vm.addMovie = function(movie){
 
-    $scope.showAlert = false;
-
-    $scope.addMovie = function(movie){
-        Movie.create(movie)
-            .success(function(){
-                $scope.movies.push(movie);
+        Movie.save(movie, function(movie){
+                $scope.mo.movies.push(movie);
                 $scope.movie = {};
                 $scope.showAlert = false;
-                $('#movie-form-modal').modal('hide');
-            })
-            .error(function(resp, statusCode){
+            }, function(error){
                 // Affichage d'un message d'erreur
-                $scope.errorTitle = 'Erreur ' + statusCode ;
-                $scope.errorMessage = resp.error;
+                $scope.errorTitle = 'Erreur ' + error.status ;
+                $scope.errorMessage = error.data.error;
                 $scope.showAlert = true;
             });
     };
