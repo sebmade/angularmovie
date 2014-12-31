@@ -6,7 +6,7 @@ angularMovieApp.controller("homeController" ,function homeController($scope) {
 
 });
 
-angularMovieApp.controller("moviesController" ,function moviesController($scope) {
+angularMovieApp.controller("moviesController" ,function moviesController($scope, $window) {
 
     this.movies = [
         {
@@ -56,6 +56,10 @@ angularMovieApp.controller("moviesController" ,function moviesController($scope)
             rate : "5"
         }
     ];
+
+    this.showMovie = function(movie) {
+      $window.alert(movie.title+' '+movie.releaseYear);
+    }
 
 });
 
