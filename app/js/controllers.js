@@ -1,14 +1,15 @@
 "use strict";
 
-angularMovieApp.controller("homeController" ,function ($scope) {
+angularMovieApp.controller("homeController" ,function homeController($scope) {
 
-    $scope.user = 'Thierry LAU';
+    this.user = 'Sébastien Letélié';
 
 });
 
-angularMovieApp.controller("moviesController" ,function ($scope) {
+angularMovieApp.controller("moviesController" ,function moviesController($scope) {
+  var vm = this;
 
-    $scope.movies = [
+    vm.movies = [
         {
             id: 1,
             title : "Avatar",
@@ -47,7 +48,7 @@ angularMovieApp.controller("moviesController" ,function ($scope) {
         },
         {
             id: 4,
-            title : "Yip Man 2",
+            title : "Ip Man 2",
             releaseYear : "2010",
             poster : "img/yipman.jpg",
             directors : "Wilson Yip",
@@ -58,12 +59,12 @@ angularMovieApp.controller("moviesController" ,function ($scope) {
     ];
 
     $scope.$on('movie:creation', function(event, movie){
-        $scope.movies.push(movie);
+        vm.movies.push(movie);
     });
 
 
     $scope.$watch('movies',function(oldLength,newLength){
-        var length=$scope.movies.length;
+        var length = vm.movies.length;
         switch (length){
             case 0:
                 $scope.label="Pas de film";
@@ -79,12 +80,12 @@ angularMovieApp.controller("moviesController" ,function ($scope) {
 
 });
 
-angularMovieApp.controller("movieFormController" ,function ($scope, $rootScope) {
+angularMovieApp.controller("movieFormController" ,function movieFormController($scope, $rootScope) {
+  var vm = this;
 
-    $scope.addMovie = function(movie){
+    vm.addMovie = function(movie){
         $rootScope.$broadcast('movie:creation', movie);
         $scope.movie = {};
     };
 
 });
-
