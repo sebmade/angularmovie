@@ -1,14 +1,14 @@
 "use strict";
 
-angularMovieApp.controller("homeController" ,function ($scope) {
+angularMovieApp.controller("homeController" ,function homeController($scope) {
 
-    $scope.user = 'Thierry LAU';
+    this.user = 'Sébastien Letélié';
 
 });
 
-angularMovieApp.controller("moviesController" ,function ($scope) {
+angularMovieApp.controller("moviesController" ,function moviesController($scope) {
 
-    $scope.movies = [
+    this.movies = [
         {
             id: 1,
             title : "Avatar",
