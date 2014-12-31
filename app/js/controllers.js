@@ -1,26 +1,28 @@
 "use strict";
 
-angularMovieApp.controller("homeController" ,function ($scope) {
+angularMovieApp.controller("homeController" ,function homeController($scope) {
 
-    $scope.user = 'Thierry LAU';
+    vm.user = 'Sébastien Letélié';
 
 });
 
-angularMovieApp.controller("moviesController" ,function ($scope, $http) {
+angularMovieApp.controller("moviesController" ,function moviesController($scope, $http) {
+  var vm = this
 
     $http.get('/server/api/movies').success(function(resp){
-        $scope.movies = resp;
+        vm.movies = resp;
     });
 
 });
 
-angularMovieApp.controller("movieFormController" ,function ($scope, $http) {
+angularMovieApp.controller("movieFormController" ,function movieFormController($scope, $http) {
+  var vm = this
 
-    $scope.addMovie = function(movie){
+    vm.addMovie = function(movie){
 
         $http.post('/server/api/movies', movie)
             .success(function(){
-                $scope.movies.push(movie);
+                $scope.mo.movies.push(movie);
                 $scope.movie = {};
             })
             .error(function(resp){
@@ -30,4 +32,3 @@ angularMovieApp.controller("movieFormController" ,function ($scope, $http) {
     };
 
 });
-
