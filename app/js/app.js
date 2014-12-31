@@ -12,7 +12,12 @@ angularMovieApp.config(function($routeProvider) {
         .when('/movies', {
             templateUrl: 'partials/movies.html',
             controller: 'moviesController',
-            controllerAs: 'mo'
+            controllerAs: 'mo',
+            resolve: {
+              movies: function($http) {
+                return $http.get('/server/api/movies');
+              }
+            }
         })
         .when('/movies/edit/:id', {
             templateUrl: 'partials/edit.html',

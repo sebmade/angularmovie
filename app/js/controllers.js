@@ -6,12 +6,10 @@ angularMovieApp.controller("homeController" ,function homeController($scope) {
 
 });
 
-angularMovieApp.controller("moviesController" ,function moviesController($scope, $http) {
+angularMovieApp.controller("moviesController" ,function moviesController($scope, $http, movies) {
   var vm = this;
 
-    $http.get('/server/api/movies').success(function(resp){
-        vm.movies = resp;
-    });
+  vm.movies = movies.data;
 
     vm.deleteMovie = function(movie){
 		var index = vm.movies.indexOf(movie);
