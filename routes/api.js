@@ -66,13 +66,11 @@ exports.fetchActorsOfMovie = function(req, res){
  * Create a movie
  */
 exports.addMovie = function (req, res) {
-    var movieToAdd = req.body;
+	var movieToAdd = req.body;
 
-    for(var idx in MOVIES){
-        if(MOVIES[idx].title === movie.title){
-            return res.json(500, { error: 'Le film ' + movie.title + ' a déjà été ajouté.' });
-        }
-    }
+	var existingMovie = _.find(MOVIES, function (movie) {
+		return movieToAdd.title == movie.title;
+	});
 
 	if (existingMovie) {
 		return res.status(500).json({ error: 'Le film ' + existingMovie.title + ' a déjà été ajouté.' });
