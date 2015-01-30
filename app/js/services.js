@@ -1,30 +1,16 @@
 "use strict";
 
-angularMovieApp.service("Movie", function ($http) {
-    var API_URI = '/server/api/movies';
+angularMovieApp.factory("Movie", function ($resource) {
 
-    return {
+    var API_ROOT_URL = "/server/api/:item/:id/:subitem";
 
-        fetch : function() {
-            return $http.get(API_URI);
-        },
+    var Movies = $resource(API_ROOT_URL, {item : 'movies', id : '@id'},
+        {
+            update : {method : 'PUT'},  // PUT /server/api/movies
+            queryByCategory : {method : 'GET', params : {category : 'Horreur'}}, // GET /server/api/movies?category=Horreur
+            getActors : {method: 'GET', params : {subitem : 'actors'}}  // GET /server/api/movies/{id}/actors
+        });
 
-        create : function(movie) {
-            return  $http.post(API_URI, movie);
-        },
-
-        remove  : function(id) {
-            return $http.delete(API_URI + '/' + id);
-        },
-
-        fetchOne : function(id) {
-            return $http.get(API_URI + '/' + id);
-        },
-
-        update : function(movie) {
-             return $http.put('/server/api/movies', movie);
-        }
-
-    };
+    return Movies;
 
 });
