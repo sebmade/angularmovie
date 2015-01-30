@@ -2,25 +2,28 @@
 
 angularMovieApp.controller("homeController" ,function ($scope) {
 
-    $scope.user = 'Thierry LAU';
+    this.user = 'Sébastien Letélié';
 
 });
 
-angularMovieApp.controller("moviesController" ,function ($scope, Movie) {
+angularMovieApp.controller("moviesController" ,function ($scope, movies) {
+  var vm = this;
+
+    vm.movies = movies;
 
     // display mode by default
-    $scope.tableView = false;
+    vm.tableView = false;
     // icon by mode by default
-    $scope.tableViewIcon = 'icon-th icon-white';
+    vm.tableViewIcon = 'icon-th icon-white';
 
     // function called when changing view mode
-    $scope.toogleView = function() {
-        $scope.tableView = !$scope.tableView;
+    vm.toogleView = function() {
+        vm.tableView = !vm.tableView;
 
-        if($scope.tableView === false){
-            $scope.tableViewIcon = 'icon-th-list icon-white';
+        if(vm.tableView === false){
+            vm.tableViewIcon = 'icon-th-list icon-white';
         } else {
-            $scope.tableViewIcon = 'icon-th icon-white';
+            vm.tableViewIcon = 'icon-th icon-white';
         }
     };
 
@@ -64,4 +67,3 @@ angularMovieApp.controller("movieFormController" ,function movieFormController($
     };
 
 });
-

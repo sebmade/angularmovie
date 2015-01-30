@@ -1,6 +1,6 @@
 "use strict";
 
-var angularMovieApp = angular.module('angularMovieApp', ['ngRoute', '$strap.directives']);
+var angularMovieApp = angular.module('angularMovieApp', ['ngRoute', 'ngResource', '$strap.directives']);
 angularMovieApp.config(function($routeProvider) {
     $routeProvider
         .when('/home', {
@@ -27,10 +27,6 @@ angularMovieApp.config(function($routeProvider) {
                 return Movie.get({id: $route.current.params.id});
               }
             }
-        })
-        .when('/movies/edit/:id', {
-            templateUrl: 'partials/edit.html',
-            controller: 'editMovieController'
         })
         .otherwise({
             redirectTo: '/home'
