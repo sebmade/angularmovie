@@ -13,7 +13,8 @@ describe('unit tests', function () {
   }));
 
   it('test var movies', function () {
-    expect(mc.movies.length).toBe(0);
+    mc.toogleView();
+    expect(mc.tableViewIcon).toBe('icon-th icon-white');
   });
 
 });
